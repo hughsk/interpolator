@@ -2,6 +2,13 @@ var choose = require('choose')
 
 var TWO_PI = Math.PI * 2
 
+/**
+ * Linear interpolation (a straight line).
+ *
+ * @param  {Number} a The value to hit at "0"
+ * @param  {Number} b The value to hit at "1"
+ * @return {Function}
+ */
 var interpolate = module.exports = function (a, b) {
   b -= a
 
@@ -11,6 +18,14 @@ var interpolate = module.exports = function (a, b) {
 };
 interpolate.linear = interpolate
 
+/**
+ * Linear interpolation, returning only
+ * rounded numbers.
+ * 
+ * @param  {Number} a The value to hit at "0"
+ * @param  {Number} b The value to hit at "1"
+ * @return {Function}
+ */
 interpolate.round = function (a, b) {
   b -= a
 
@@ -19,6 +34,13 @@ interpolate.round = function (a, b) {
   };
 };
 
+/**
+ * Quadratic interpolation.
+ * 
+ * @param  {Number} a The value to hit at "0"
+ * @param  {Number} b The value to hit at "1"
+ * @return {Function}
+ */
 interpolate.quad = function (a, b) {
   b -= a
 
@@ -27,6 +49,13 @@ interpolate.quad = function (a, b) {
   };
 };
 
+/**
+ * Cubic interpolation.
+ * 
+ * @param  {Number} a The value to hit at "0"
+ * @param  {Number} b The value to hit at "1"
+ * @return {Function}
+ */
 interpolate.cubic = function (a, b) {
   b -= a
 
@@ -35,12 +64,20 @@ interpolate.cubic = function (a, b) {
   };
 };
 
-interpolate.sin = function (b, a) {
-  b -= a
-  b *= 0.5
+/**
+ * Cosine wave interpolation - starts at the first value,
+ * curves up to the second and back down to the first again.
+ * 
+ * @param  {Number} a The value to hit at "0" and "1"
+ * @param  {Number} b The value to hit at "0.5"
+ * @return {Function}
+ */
+interpolate.sin = function (a, b) {
+  a -= b
+  a *= 0.5
 
   return function sin(t) {
-    return a + b * (Math.cos(t * TWO_PI) + 1)
+    return b + a * (Math.cos(t * TWO_PI) + 1)
   };
 };
 
@@ -77,15 +114,15 @@ interpolate.bezier = function (a, b) {
       , i = 0
       , oneMinusT = 1 - t
 
-    if (t === 1) return args[0]
-    if (t === 0) return args[total]
+    if (t === 0) return args[0]
+    if (t === 1) return args[total]
 
     for (; i < coeffsLength; i += 1) {
       x += (
         coeffs[i] * 
         args[i] *
-        Math.pow(oneMinusT, coeffsLength - i) *
-        Math.pow(t, i - 1)
+        Math.pow(oneMinusT, coeffsLength - i - 1) *
+        Math.pow(t, i)
       );
     }
 
