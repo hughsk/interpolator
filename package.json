@@ -1,0 +1,23 @@
+{
+  "name": "interpolator",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "license": "MIT",
+  "description": "A small collection of d3-esque interpolation methods",
+  "dependencies": {
+    "choose": "0.0.0"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "interpolate",
+    "interpolation",
+    "tween",
+    "ease",
+    "bezier",
+    "sine"
+  ],
+  "author": "Hugh Kennedy <hughskennedy@gmail.com> (hughskennedy@gmail.com)"
+}
